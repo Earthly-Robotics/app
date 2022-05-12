@@ -6,49 +6,134 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.428" />
 
-    <EditText
-        android:id="@+id/textbox1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/textbox2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="19dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintStart_toStartOf="@+id/textbox1"
-        app:layout_constraintTop_toBottomOf="@+id/textbox1" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/homeimage" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textbox2" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
 
+        <LinearLayout
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:src="@drawable/logoundertext" />
+        </LinearLayout>
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:background="@drawable/backgroundstyle"
+                android:orientation="vertical"
+                android:layout_marginTop="600dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <View
+                    android:layout_width="125dp"
+                    android:layout_height="1dp"
+                    android:background="#46C2C7"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="25dp"/>
+
+                <ImageView
+                    android:paddingLeft="50dp"
+                    android:paddingRight="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/flowergolem"
+                    android:width="220dp"
+                    android:layout_marginTop="25dp"/>
+                <Button
+                    android:id="@+id/nextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Connect"
+                    android:layout_marginTop="10dp"
+                    android:width="220dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/buttonstyle"
+                    android:fontFamily="@font/centurygothic"
+                    android:textSize="20dp"
+                    />
+
+                <ImageView
+                    android:paddingLeft="50dp"
+                    android:paddingRight="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/coppergolem"
+                    android:width="220dp"
+                    android:layout_marginTop="25dp"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Connect"
+                    android:layout_marginTop="10dp"
+                    android:width="220dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/buttonstyle"
+                    android:fontFamily="@font/centurygothic"
+                    android:textSize="20dp"
+                    />
+
+                <ImageView
+                    android:paddingLeft="70dp"
+                    android:paddingRight="70dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/irongolem"
+                    android:layout_marginTop="25dp"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Connect"
+                    android:layout_marginTop="10dp"
+                    android:width="220dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/buttonstyle"
+                    android:fontFamily="@font/centurygothic"
+                    android:textSize="20dp"
+                    android:layout_marginBottom="25dp"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
