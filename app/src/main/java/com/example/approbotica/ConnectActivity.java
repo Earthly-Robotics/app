@@ -26,34 +26,10 @@ public class ConnectActivity extends AppCompatActivity {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                final TextView textViewToChange = (TextView) findViewById(R.id.textView);
-                textViewToChange.setText("Connected.");
-            }
-        }, 3000);
-
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Intent intent = new Intent (ConnectActivity.this, RobotActivity.class);
+                Intent intent = new Intent(ConnectActivity.this, RobotActivity.class);
                 startActivity(intent);
                 finish();
             }
         }, 2000);
-    }
-
-    private void setup() {
-        try {
-            if (connectToApp()){
-                final TextView textViewToChange = (TextView) findViewById(R.id.textView);
-                textViewToChange.setText("Connected.");
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean connectToApp() throws InterruptedException {
-        TimeUnit.SECONDS.sleep(3);
-        return true;
     }
 }

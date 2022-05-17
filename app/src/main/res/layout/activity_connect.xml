@@ -10,13 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
-
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
             android:src="@drawable/homeimage" />
-
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#A6000000">
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,17 +39,19 @@
                 android:layout_height="wrap_content"
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true"
-                android:src="@drawable/logoundertext" />
+                android:src="@drawable/flowergolem" />
         </LinearLayout>
         <TextView
-            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Connecting"
+            android:text="Connecting..."
             android:layout_gravity="center"
             android:background="@drawable/buttonstyle"
             android:fontFamily="@font/centurygothic"
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="25dp"
+            android:textStyle="bold"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
