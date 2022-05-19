@@ -26,9 +26,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:backgroundTint="@color/white">
-
+        android:orientation="vertical">
         <RelativeLayout
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
@@ -95,7 +93,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_gravity="start"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="25dp">
@@ -107,7 +105,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Golem Connector"
+                        android:text="Object Recognition"
                         android:layout_gravity="center"
                         android:fontFamily="@font/centurygothic"
                         android:textSize="25dp"
@@ -118,10 +116,23 @@
                         android:layout_height="wrap_content"
                         android:width="18dp"
                         android:height="18dp"
-                        android:background="@drawable/circlegreen"
+                        android:background="@drawable/circlered"
                         android:layout_marginLeft="6dp"/>
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="25dp">
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#46C2C7"
+                        android:minHeight="175dp">
 
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -150,7 +161,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Line Dance"
+                            android:text="Blauw blokje volgen"
                             android:fontFamily="@font/centurygothic"
                             android:textSize="25dp"
                             android:textColor="@color/white"
@@ -160,13 +171,43 @@
                             android:layout_height="wrap_content"
                             android:width="18dp"
                             android:height="18dp"
-                            android:background="@drawable/circlegreen"
+                            android:background="@drawable/circlered"
                             android:layout_marginLeft="6dp"/>
                     </LinearLayout>
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Stop proces"
+                        android:text="Start"
+                        android:layout_marginTop="10dp"
+                        android:width="220dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/buttonstyle"
+                        android:fontFamily="@font/centurygothic"
+                        android:textSize="20dp"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Bocht omgaan"
+                            android:fontFamily="@font/centurygothic"
+                            android:textSize="25dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:width="18dp"
+                            android:height="18dp"
+                            android:background="@drawable/circlered"
+                            android:layout_marginLeft="6dp"/>
+                    </LinearLayout>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Start"
                         android:layout_marginTop="10dp"
                         android:width="220dp"
                         android:layout_gravity="center"
