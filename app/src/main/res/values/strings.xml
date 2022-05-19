@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">App Robotica</string>
+    <string name="title_activity_view">ViewActivity</string>
 </resources>
