@@ -13,16 +13,15 @@ public class ViewActivity extends Activations {
     protected void onCreate(Bundle savedInstanceState) {
         if (getResources().getConfiguration().orientation == 1)
             finish();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
         getSupportActionBar().hide();
 
         //Activations class
-        //data
-        setController();
         //menu
         //activateBackButton();
-        setBattery();
+        //setBattery();
         //buttons
         //activateStartStopButton("buttonStop", getController().getCurrentAction());
             //this class

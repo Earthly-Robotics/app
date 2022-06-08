@@ -11,12 +11,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.example.Network.Client;
+import com.example.Network.Message;
+
+import java.io.IOException;
+import java.net.UnknownHostException;
+
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ActivateButton();
+        ActivateButtoni();
         addMargin();
         getSupportActionBar().hide();
     }
@@ -36,6 +43,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, ConnectActivity.class));
+            }
+        });
+    }
+
+    private void ActivateButtoni(){
+        Button buttonconnectflowergolem = (Button) findViewById(R.id.buttonConnectIronGolem);
+        buttonconnectflowergolem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, MainActivity2.class));
             }
         });
     }

@@ -17,7 +17,6 @@ import java.util.concurrent.TimeUnit;
 
 public class ConnectActivity extends AppCompatActivity {
 
-    private Controller controller = new Controller();
     private Timer timer;
 
     @Override
@@ -26,14 +25,13 @@ public class ConnectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_connect);
         getSupportActionBar().hide();
         TextView connectionstring = (TextView) findViewById(R.id.connectionString);
-        if (controller.setConnection()){
+        if (Controller.getInstance().setConnection()){
             connectionstring.setText("Connected.");
             timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     Intent intent = new Intent(ConnectActivity.this, RobotActivity.class);
-                    intent.putExtra("CONTROLLER", controller);
                     startActivity(intent);
                     finish();
                 }

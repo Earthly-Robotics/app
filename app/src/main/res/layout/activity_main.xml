@@ -122,7 +122,7 @@
                     android:adjustViewBounds="true"
                     android:src="@drawable/irongolem"
                     android:layout_marginTop="25dp"/>
-                <Button
+                <Button android:id="@+id/buttonConnectIronGolem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

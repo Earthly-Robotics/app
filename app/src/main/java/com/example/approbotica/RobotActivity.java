@@ -3,7 +3,14 @@ package com.example.approbotica;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.Network.Client;
+import com.example.Network.Message;
+
+import java.io.IOException;
+import java.net.UnknownHostException;
 
 public class RobotActivity extends Activations {
 
@@ -12,7 +19,6 @@ public class RobotActivity extends Activations {
         if (getResources().getConfiguration().orientation == 2)
         {
             Intent activity = new Intent(RobotActivity.this, ViewActivity.class);
-            activity.putExtra("CONTROLLER", getController());
             startActivity(activity);
         }
         super.onCreate(savedInstanceState);
@@ -20,8 +26,6 @@ public class RobotActivity extends Activations {
         getSupportActionBar().hide();
 
             //Activations class
-        //data
-        setController();
         //menu
         activateBackButton();
         activateRefreshButton();
@@ -30,13 +34,23 @@ public class RobotActivity extends Activations {
         activateImageView("buttonDance", new Intent(RobotActivity.this, DanceActivity.class));
         activateImageView("buttonSeed", new Intent(RobotActivity.this, SeedActivity.class));
         activateImageView("buttonCamera", new Intent(RobotActivity.this, CameraActivity.class));
-        activateImageView("buttonView", new Intent(RobotActivity.this, ViewActivity.class));
-        activateStartStopButton("buttonStop", getController().getCurrentAction());
+        activateImageViewView("buttonView", new Intent(RobotActivity.this, ViewActivity.class));
+        activateStartStopButton("buttonStop", "MT", "LD");
         //layout
-        changeCircleColor("circleConnection", getController().getConnection());
-
+        changeCircleColor("circleConnection", Controller.getInstance().getConnection());
             //This class
-        changeText(getController().getCurrentAction());
+        changeText(Controller.getInstance().getCurrentAction());
+    }
+
+    public void activateImageViewView(String id, Intent activity){
+        int ID = getResources().getIdentifier(id, "id", getPackageName());
+        ImageView imageview = (ImageView) findViewById(ID);
+        imageview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(activity);
+            }
+        });
     }
 
     public void changeText(String text){

@@ -2,8 +2,15 @@ package com.example.approbotica;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.View;
 
-public class Controller implements Parcelable {
+import com.example.Network.Client;
+import com.example.Network.Message;
+
+import java.io.IOException;
+import java.net.UnknownHostException;
+
+public class Controller {
     private boolean connection;
     private int battery = 69;
     private int speed = 0;
@@ -13,39 +20,26 @@ public class Controller implements Parcelable {
     private String cameraFeed;
     private String currentAction = "controller";
 
-    public Controller(){}
+    private volatile boolean stopThread = false;
+    private static final String TAG = "MainActivity";
 
-    protected Controller(Parcel in) {
-        connection = in.readByte() != 0;
-        battery = in.readInt();
-        speed = in.readInt();
-        weight = in.readInt();
-        decibel = in.createIntArray();
-        currentGrid = in.readInt();
-        cameraFeed = in.readString();
-        currentAction = in.readString();
+    private static Client client;
+
+    static {
+        try {
+            client = new Client("192.168.50.1", 8080);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static final Creator<Controller> CREATOR = new Creator<Controller>() {
-        @Override
-        public Controller createFromParcel(Parcel in) {
-            return new Controller(in);
-        }
+    private static Controller controller;
+    private Controller(){}
 
-        @Override
-        public Controller[] newArray(int size) {
-            return new Controller[size];
-        }
-    };
-
-    public void sendSignal(String action){
-        //sendsomething
-    }
-
-    public boolean setConnection(){
-        connection = true;
-        //do connection stuff here
-        return connection;
+    public static Controller getInstance() {
+        if (controller == null)
+            controller = new Controller();
+        return controller;
     }
 
     public boolean getConnection(){ return connection; }
@@ -54,20 +48,48 @@ public class Controller implements Parcelable {
     public int getWeight(){ return weight; }
     public String getCurrentAction() { return currentAction; }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void sendSignal(String[] a, String[] b){
+        stopThread = false;
+        ExampleRunnable runnable = new ExampleRunnable(a,b);
+        new Thread(runnable).start();
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte((byte) (connection ? 1 : 0));
-        dest.writeInt(battery);
-        dest.writeInt(speed);
-        dest.writeInt(weight);
-        dest.writeIntArray(decibel);
-        dest.writeInt(currentGrid);
-        dest.writeString(cameraFeed);
-        dest.writeString(currentAction);
+    public boolean setConnection(){
+        connection = true;
+        //do connection stuff here
+        return connection;
+    }
+
+    public void startThread(View view) {
+    }
+
+    public void stopThread(View view) {
+        stopThread = true;
+    }
+
+    class ExampleRunnable implements Runnable {
+        Message message;
+
+        ExampleRunnable(String [] a, String [] b) {
+            message = new Message(a,b);
+        }
+
+        @Override
+        public void run() {
+            if (stopThread)
+                return;
+            try {
+                client.sendMessage(message.getStringObject());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }
