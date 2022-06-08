@@ -25,14 +25,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:backgroundTint="@color/white">
+
         <RelativeLayout
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
             android:paddingTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <ImageView android:id="@+id/BackButton"
+            <ImageView android:id="@+id/buttonBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
@@ -42,7 +44,7 @@
                 android:src="@drawable/arrowback"
                 android:gravity="left"
                 android:layout_alignParentLeft="true"/>
-            <ImageView
+            <ImageView android:id="@+id/buttonRefresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="150dp"
@@ -55,23 +57,23 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:orientation="vertical">
-                <TextView
+                <TextView android:id="@+id/batteryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="50%"
+                    android:text="0%"
                     android:layout_gravity="center"
                     android:fontFamily="@font/centurygothic"
                     android:textSize="20dp"
                     android:textColor="@color/white"
                     android:textStyle="bold"/>
-                <ImageView
+                <ImageView android:id="@+id/batteryImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:maxWidth="42dp"
                     android:maxHeight="42dp"
                     android:scaleType="fitStart"
-                    android:src="@drawable/battery55"/>
+                    android:src="@drawable/battery10"/>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
@@ -110,12 +112,12 @@
                         android:textSize="25dp"
                         android:textColor="@color/white"
                         android:textStyle="bold"/>
-                    <TextView
+                    <TextView android:id="@+id/circleConnectionDance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:width="18dp"
                         android:height="18dp"
-                        android:background="@drawable/circlegreen"
+                        android:background="@drawable/circlered"
                         android:layout_marginLeft="6dp"/>
                 </LinearLayout>
                 <LinearLayout
@@ -165,18 +167,18 @@
                             android:textSize="25dp"
                             android:textColor="@color/white"
                             android:textStyle="bold"/>
-                        <TextView
+                        <TextView android:id="@+id/circleLineDance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:width="18dp"
                             android:height="18dp"
-                            android:background="@drawable/circlegreen"
+                            android:background="@drawable/circlered"
                             android:layout_marginLeft="6dp"/>
                     </LinearLayout>
-                    <Button
+                    <Button android:id="@+id/buttonLineDance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Stop"
+                        android:text="Start"
                         android:layout_marginTop="10dp"
                         android:width="220dp"
                         android:layout_gravity="center"
@@ -195,7 +197,7 @@
                             android:textSize="25dp"
                             android:textColor="@color/white"
                             android:textStyle="bold"/>
-                        <TextView
+                        <TextView android:id="@+id/circleSoloDance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:width="18dp"
@@ -203,7 +205,7 @@
                             android:background="@drawable/circlered"
                             android:layout_marginLeft="6dp"/>
                     </LinearLayout>
-                    <Button
+                    <Button android:id="@+id/buttonSoloDance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Start"

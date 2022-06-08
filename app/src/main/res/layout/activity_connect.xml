@@ -41,7 +41,7 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/flowergolem" />
         </LinearLayout>
-        <TextView
+        <TextView android:id="@+id/connectionString"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Connecting..."

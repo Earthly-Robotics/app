@@ -1,73 +1,46 @@
 package com.example.approbotica;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.TextView;
 
-public class RobotActivity extends AppCompatActivity {
+public class RobotActivity extends Activations {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (getResources().getConfiguration().orientation == 2)
+        {
+            Intent activity = new Intent(RobotActivity.this, ViewActivity.class);
+            activity.putExtra("CONTROLLER", getController());
+            startActivity(activity);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_robot);
         getSupportActionBar().hide();
-        configureBackButton();
-        configureButton1();
-        configureButton2();
-        configureButton3();
-        configureButton4();
+
+            //Activations class
+        //data
+        setController();
+        //menu
+        activateBackButton();
+        activateRefreshButton();
+        setBattery();
+        //buttons
+        activateImageView("buttonDance", new Intent(RobotActivity.this, DanceActivity.class));
+        activateImageView("buttonSeed", new Intent(RobotActivity.this, SeedActivity.class));
+        activateImageView("buttonCamera", new Intent(RobotActivity.this, CameraActivity.class));
+        activateImageView("buttonView", new Intent(RobotActivity.this, ViewActivity.class));
+        activateStartStopButton("buttonStop", getController().getCurrentAction());
+        //layout
+        changeCircleColor("circleConnection", getController().getConnection());
+
+            //This class
+        changeText(getController().getCurrentAction());
     }
 
-    private void configureBackButton(){
-        ImageView ImageButton = (ImageView) findViewById(R.id.BackButton);
-        ImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-    }
-
-    private void configureButton1(){
-        ImageView ImageButton = (ImageView) findViewById(R.id.ButtonImage1);
-        ImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(RobotActivity.this, DanceActivity.class));
-            }
-        });
-    }
-
-    private void configureButton2(){
-        ImageView ImageButton = (ImageView) findViewById(R.id.ButtonImage2);
-        ImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(RobotActivity.this, SeedActivity.class));
-            }
-        });
-    }
-
-    private void configureButton3(){
-        ImageView ImageButton = (ImageView) findViewById(R.id.ButtonImage3);
-        ImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(RobotActivity.this, CameraActivity.class));
-            }
-        });
-    }
-
-    private void configureButton4(){
-        ImageView ImageButton = (ImageView) findViewById(R.id.ButtonImage4);
-        ImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(RobotActivity.this, ViewActivity.class));
-            }
-        });
+    public void changeText(String text){
+        TextView textview = (TextView) findViewById(R.id.textStop);
+        textview.setText(text);
     }
 }

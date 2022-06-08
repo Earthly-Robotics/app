@@ -6,23 +6,36 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-public class CameraActivity extends AppCompatActivity {
+public class CameraActivity extends Activations {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         getSupportActionBar().hide();
-        configureBackButton();
-    }
 
-    private void configureBackButton(){
-        ImageView ImageButton = (ImageView) findViewById(R.id.BackButton);
-        ImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+            //Activations class
+        //data
+        setController();
+        //menu
+        activateBackButton();
+        activateRefreshButton();
+        setBattery();
+        //buttons
+        activateStartStopButton("buttonBlueBlock", "blueblock");
+        activateStartStopButton("buttonCorner", "corner");
+        String currentAction = getController().getCurrentAction();
+        if (currentAction == "blueblock")
+        {
+            changeCircleColor("circleConnectionCamera", true);
+            changeCircleColor("circleBlueBlock", true);
+            changeButtonText("buttonBlueBlock", "Start");
+        }
+        else if (currentAction == "corner")
+        {
+            changeCircleColor("circleConnectionCamera", true);
+            changeCircleColor("circleCorner", true);
+            changeButtonText("buttonCorner", "Start");
+        }
     }
 }
