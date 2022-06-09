@@ -22,7 +22,7 @@ public class SeedActivity extends Activations {
         activateRefreshButton();
         setBattery();
         //buttons
-        activateStartStopButton("buttonPlantSeeds", "plantseeds", "");
+        activateStartStopButton("buttonPlantSeeds", "MT", "PS");
         if (Controller.getInstance().getCurrentAction() == "plantseeds")
         {
             changeCircleColor("circleConnectionSeed", true);

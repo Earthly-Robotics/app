@@ -36,13 +36,13 @@ public class DanceActivity extends Activations {
         {
             changeCircleColor("circleConnectionDance", true);
             changeCircleColor("circleLineDance", true);
-            changeButtonText("circleLineDance", "Start");
+            changeButtonText("buttonLineDance", "Start");
         }
         else if (currentAction == "solodance")
         {
             changeCircleColor("circleConnectionDance", true);
             changeCircleColor("circleSoloDance", true);
-            changeButtonText("circleSoloDance", "Start");
+            changeButtonText("buttonSoloDance", "Start");
         }
 
     }

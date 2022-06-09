@@ -3,6 +3,8 @@ package com.example.approbotica;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.util.DisplayMetrics;
@@ -20,10 +22,11 @@ import java.net.UnknownHostException;
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ActivateButton();
-        ActivateButtoni();
+        ActivateButtonIron();
         addMargin();
         getSupportActionBar().hide();
     }
@@ -47,12 +50,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void ActivateButtoni(){
+    private void ActivateButtonIron(){
         Button buttonconnectflowergolem = (Button) findViewById(R.id.buttonConnectIronGolem);
         buttonconnectflowergolem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, MainActivity2.class));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://youtu.be/dQw4w9WgXcQ"));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setPackage("com.google.android.youtube");
+                startActivity(intent);
             }
         });
     }

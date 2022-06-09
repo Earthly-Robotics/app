@@ -1,13 +1,11 @@
 package com.example.approbotica;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.view.View;
-
 import com.example.Network.Client;
 import com.example.Network.Message;
 
 import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 public class Controller {
@@ -16,19 +14,16 @@ public class Controller {
     private int speed = 0;
     private int weight = 0;
     private int[] decibel;
-    private int currentGrid;
+    private String currentGrid;
     private String cameraFeed;
     private String currentAction = "controller";
 
-    private volatile boolean stopThread = false;
-    private static final String TAG = "MainActivity";
-
-    private static Client client;
+    private static DatagramSocket socket;
 
     static {
         try {
-            client = new Client("192.168.50.1", 8080);
-        } catch (UnknownHostException e) {
+            socket = new DatagramSocket();
+        } catch (SocketException e) {
             e.printStackTrace();
         }
     }
@@ -42,54 +37,46 @@ public class Controller {
         return controller;
     }
 
+    private static Client client;
+
+    static {
+        try {
+            client = new Client("192.168.50.1", 8080, socket);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean getConnection(){ return connection; }
     public int getBattery(){ return battery; }
     public int getSpeed(){ return speed; }
     public int getWeight(){ return weight; }
     public String getCurrentAction() { return currentAction; }
 
+    public void setConnection(boolean connection){ this.connection = connection; }
+    public void setBattery(int battery){ this.battery = battery; }
+    public void setSpeed(int speed){ this.speed = speed; }
+    public void setWeight(int weight){this.weight = weight; }
+    public void setCurrentAction(String currentAction) { this.currentAction = currentAction; }
+
     public void sendSignal(String[] a, String[] b){
-        stopThread = false;
-        ExampleRunnable runnable = new ExampleRunnable(a,b);
-        new Thread(runnable).start();
+        Message message = new Message(a,b);
+        Runnable sendAMessage = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    client.sendMessage(message.getStringObject());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        new Thread(sendAMessage).start();
     }
 
     public boolean setConnection(){
         connection = true;
         //do connection stuff here
         return connection;
-    }
-
-    public void startThread(View view) {
-    }
-
-    public void stopThread(View view) {
-        stopThread = true;
-    }
-
-    class ExampleRunnable implements Runnable {
-        Message message;
-
-        ExampleRunnable(String [] a, String [] b) {
-            message = new Message(a,b);
-        }
-
-        @Override
-        public void run() {
-            if (stopThread)
-                return;
-            try {
-                client.sendMessage(message.getStringObject());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
     }
 }

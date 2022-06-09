@@ -1,6 +1,7 @@
 package com.example.approbotica;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,23 +35,12 @@ public class RobotActivity extends Activations {
         activateImageView("buttonDance", new Intent(RobotActivity.this, DanceActivity.class));
         activateImageView("buttonSeed", new Intent(RobotActivity.this, SeedActivity.class));
         activateImageView("buttonCamera", new Intent(RobotActivity.this, CameraActivity.class));
-        activateImageViewView("buttonView", new Intent(RobotActivity.this, ViewActivity.class));
-        activateStartStopButton("buttonStop", "MT", "LD");
+        activateImageView("buttonView", new Intent(RobotActivity.this, ViewActivity.class));
+        activateStartStopButton("buttonStop", "MT", "EB");
         //layout
         changeCircleColor("circleConnection", Controller.getInstance().getConnection());
             //This class
         changeText(Controller.getInstance().getCurrentAction());
-    }
-
-    public void activateImageViewView(String id, Intent activity){
-        int ID = getResources().getIdentifier(id, "id", getPackageName());
-        ImageView imageview = (ImageView) findViewById(ID);
-        imageview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(activity);
-            }
-        });
     }
 
     public void changeText(String text){

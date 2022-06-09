@@ -2,6 +2,8 @@ package com.example.approbotica;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -90,5 +92,14 @@ public class Activations extends AppCompatActivity {
             circle.setBackgroundResource(R.drawable.circlered);
     }
 
-
+    public void activateCameraButton(){
+        Button button = (Button) findViewById(R.id.buttonCamera);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                button.setVisibility(button.INVISIBLE);
+                //do things for camera
+            }
+        });
+    }
 }
