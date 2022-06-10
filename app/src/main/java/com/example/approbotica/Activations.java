@@ -16,6 +16,12 @@ import java.util.Dictionary;
 
 public class Activations extends AppCompatActivity {
 
+    public boolean updateSpeed = false;
+
+    public void setUpdateSpeed(boolean updateSpeed) {
+        this.updateSpeed = updateSpeed;
+    }
+
     public void refresh(){
         finish();
         startActivity(getIntent());
@@ -77,6 +83,12 @@ public class Activations extends AppCompatActivity {
         });
     }
 
+    public void changeText(String id, String text){
+        int ID = getResources().getIdentifier(id, "id", getPackageName());
+        TextView textview = (TextView) findViewById(ID);
+        textview.setText(text);
+    }
+
     public void changeButtonText(String id, String text){
         int ID = getResources().getIdentifier(id, "id", getPackageName());
         Button button = (Button) findViewById(ID);
@@ -101,5 +113,29 @@ public class Activations extends AppCompatActivity {
                 //do things for camera
             }
         });
+    }
+
+    public void testnet()
+    {
+        Runnable Listen = new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 1000; i++)
+                {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            changeText("textStop", Controller.getInstance().getCurrentAction());
+                        }
+                    });
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        new Thread(Listen).start();
     }
 }

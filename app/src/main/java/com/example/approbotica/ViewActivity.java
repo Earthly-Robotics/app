@@ -31,11 +31,8 @@ public class ViewActivity extends Activations {
         changeText("textWeight", Controller.getInstance().getWeight() + " g");
 
         activateCameraButton();
+        setUpdateSpeed(true);
     }
 
-    public void changeText(String id, String text){
-        int ID = getResources().getIdentifier(id, "id", getPackageName());
-        TextView textview = (TextView) findViewById(ID);
-        textview.setText(text);
-    }
+
 }

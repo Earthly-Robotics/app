@@ -195,7 +195,7 @@
                         <TextView android:id="@+id/textStop"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Line Dance"
+                            android:text=""
                             android:fontFamily="@font/centurygothic"
                             android:textSize="25dp"
                             android:textColor="@color/white"

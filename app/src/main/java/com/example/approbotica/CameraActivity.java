@@ -28,6 +28,9 @@ public class CameraActivity extends Activations {
         //buttons
         activateStartStopButton("buttonBlueBlock", "MT", "BR");
         activateStartStopButton("buttonCorner", "MT", "CR");
+
+        activateCameraButton();
+
         String currentAction = Controller.getInstance().getCurrentAction();
         if (currentAction == "blueblock")
         {

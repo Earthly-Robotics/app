@@ -130,19 +130,21 @@
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="#46C2C7"
-                        android:minHeight="175dp">
-
+                        android:background="#162A35"
+                        android:minHeight="175dp"
+                        android:gravity="center">
+                        <Button android:id="@+id/buttonCamera"
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Start Camera"
+                            android:width="220dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/buttonstyle"
+                            android:fontFamily="@font/centurygothic"
+                            android:textSize="20dp"/>
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                android:layout_centerVertical="true">
-
             </LinearLayout>
             <LinearLayout
                 android:layout_width="fill_parent"

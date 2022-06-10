@@ -36,15 +36,13 @@ public class RobotActivity extends Activations {
         activateImageView("buttonSeed", new Intent(RobotActivity.this, SeedActivity.class));
         activateImageView("buttonCamera", new Intent(RobotActivity.this, CameraActivity.class));
         activateImageView("buttonView", new Intent(RobotActivity.this, ViewActivity.class));
-        activateStartStopButton("buttonStop", "MT", "EB");
+        activateStartStopButton("buttonStop", "MT", "LC");
         //layout
         changeCircleColor("circleConnection", Controller.getInstance().getConnection());
             //This class
-        changeText(Controller.getInstance().getCurrentAction());
-    }
+        changeText("textStop",Controller.getInstance().getCurrentAction());
 
-    public void changeText(String text){
-        TextView textview = (TextView) findViewById(R.id.textStop);
-        textview.setText(text);
+        testnet();
+        Controller.getInstance().listener();
     }
 }

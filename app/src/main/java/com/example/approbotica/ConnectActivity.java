@@ -25,29 +25,36 @@ public class ConnectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_connect);
         getSupportActionBar().hide();
         TextView connectionstring = (TextView) findViewById(R.id.connectionString);
-        if (Controller.getInstance().setConnection()){
-            connectionstring.setText("Connected.");
-            timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(ConnectActivity.this, RobotActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }, 1000);
+        if (Controller.getInstance().createClient())
+        {
+            if (Controller.getInstance().setConnection()){
+                connectionstring.setText("Connected.");
+                timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(ConnectActivity.this, RobotActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }, 1000);
+            }
+            else {
+                connectionstring.setText("Failed.");
+                timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(ConnectActivity.this, RobotActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }, 1000);
+            }
         }
-        else {
-            connectionstring.setText("Failed.");
-            timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(ConnectActivity.this, RobotActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }, 1000);
-        }
+        else
+            finish();
+
+
     }
 }

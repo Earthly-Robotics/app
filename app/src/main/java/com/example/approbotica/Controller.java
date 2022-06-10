@@ -3,6 +3,8 @@ package com.example.approbotica;
 import com.example.Network.Client;
 import com.example.Network.Message;
 
+import org.json.simple.parser.ParseException;
+
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.SocketException;
@@ -39,11 +41,14 @@ public class Controller {
 
     private static Client client;
 
-    static {
+    public boolean createClient()
+    {
         try {
             client = new Client("192.168.50.1", 8080, socket);
+            return true;
         } catch (UnknownHostException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -66,12 +71,34 @@ public class Controller {
             public void run() {
                 try {
                     client.sendMessage(message.getStringObject());
-                } catch (IOException e) {
+                    Thread.currentThread().join();
+                } catch (IOException | ParseException | InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         };
         new Thread(sendAMessage).start();
+    }
+
+    public void listener()
+    {
+        Thread listener = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    client.startListening();
+                    Thread.currentThread().isDaemon();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        listener.start();
     }
 
     public boolean setConnection(){
