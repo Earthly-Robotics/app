@@ -2,6 +2,7 @@ package com.example.approbotica;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
@@ -16,11 +17,7 @@ import java.util.Dictionary;
 
 public class Activations extends AppCompatActivity {
 
-    public boolean updateSpeed = false;
-
-    public void setUpdateSpeed(boolean updateSpeed) {
-        this.updateSpeed = updateSpeed;
-    }
+    volatile boolean stop = false;
 
     public void refresh(){
         finish();
@@ -33,16 +30,6 @@ public class Activations extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
-            }
-        });
-    }
-
-    public void activateRefreshButton(){
-        ImageView button = (ImageView) findViewById(R.id.buttonRefresh);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                refresh();
             }
         });
     }
@@ -73,12 +60,25 @@ public class Activations extends AppCompatActivity {
         String currentAction = Controller.getInstance().getCurrentAction();
         int ID = getResources().getIdentifier(id, "id", getPackageName());
         Button button = (Button) findViewById(ID);
+        button.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    button.setText("Hallo");
+                if (!hasFocus)
+                    button.setText("Stop");
+            }
+        });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String [] a = {A};
                 String [] b = {B};
-                Controller.getInstance().sendSignal(a,b);
+                String [] c = {"UB"};
+                if (button.getText() == "Stop")
+                    Controller.getInstance().sendMessage(a,c);
+                else
+                    Controller.getInstance().sendMessage(a,b);
             }
         });
     }
@@ -104,38 +104,10 @@ public class Activations extends AppCompatActivity {
             circle.setBackgroundResource(R.drawable.circlered);
     }
 
-    public void activateCameraButton(){
-        Button button = (Button) findViewById(R.id.buttonCamera);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                button.setVisibility(button.INVISIBLE);
-                //do things for camera
-            }
-        });
-    }
-
-    public void testnet()
+    @Override
+    public void onDestroy()
     {
-        Runnable Listen = new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < 1000; i++)
-                {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            changeText("textStop", Controller.getInstance().getCurrentAction());
-                        }
-                    });
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
-        new Thread(Listen).start();
+        stop = true;
+        super.onDestroy();
     }
 }

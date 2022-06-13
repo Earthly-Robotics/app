@@ -49,7 +49,7 @@ public class Client {
             JSONObject jsonObject = new Message(new String(received)).getJSONObject();
             int finalI = i;
             new Thread(() -> {
-                handleMessage(jsonObject, finalI);
+                handleMessage(jsonObject);
                 try {
                     System.out.println("Closed thread: " + finalI);
                     Thread.currentThread().join();
@@ -60,29 +60,55 @@ public class Client {
         }
     }
 
-    private void handleMessage(JSONObject jsonObject, int i){
+    private void handleMessage(JSONObject jsonObject){
         switch (jsonObject.get("MT").toString()) {
-            case "CF"://Camera Feed
-                //Use Locks
-                break;
-            case "OS":// Orientation & Speed
+            case "BATTERY"://Camera Feed
                 lock.lock();
-                Controller.getInstance().setSpeed((Integer) jsonObject.get("S"));
+                Controller.getInstance().setBattery((Integer) jsonObject.get("BATTERY"));
                 lock.unlock();
                 break;
-            case "BP":// Battery Percentage
-                //Use locks
-                break;
-            case "W":// Weight
-                //Use locks
-                break;
-            case "LD":
+            case "VELOCITY":// Orientation & Speed
                 lock.lock();
-                Controller.getInstance().setCurrentAction((i + ": " + jsonObject.toJSONString()));
+                Controller.getInstance().setVelocity("" + jsonObject.get("Velocity"));
                 lock.unlock();
-            case "LC":
+                break;
+            case "WEIGHT":// Battery Percentage
                 lock.lock();
-                Controller.getInstance().setCurrentAction(jsonObject.get("W") + "");
+                Controller.getInstance().setWeight("" + jsonObject.get("WEIGHT"));
+                lock.unlock();
+                break;
+            case "DECIBEL":// Weight
+                lock.lock();
+                Controller.getInstance().setDecibel((Integer) jsonObject.get("DECIBEL"));
+                lock.unlock();
+                break;
+            case "CAMERA":
+                lock.lock();
+                //TODO camera stuff
+                lock.unlock();
+            case "CAMERA_DEBUG":
+                lock.lock();
+                //TODO camera stuff
+                lock.unlock();
+            case "LINE_DANCE":
+                lock.lock();
+                Controller.getInstance().setCurrentAction("Line Dance");
+                lock.unlock();
+            case "SOLO_DANCE":
+                lock.lock();
+                Controller.getInstance().setCurrentAction("Solo Dance");
+                lock.unlock();
+            case "PLANT":
+                lock.lock();
+                Controller.getInstance().setCurrentAction("Plant Seeds");
+                lock.unlock();
+            case "BLUE_BLOCK":
+                lock.lock();
+                Controller.getInstance().setCurrentAction("Recognize Blue Block");
+                lock.unlock();
+            case "MANUAL":
+                lock.lock();
+                Controller.getInstance().setCurrentAction("Manual");
                 lock.unlock();
         }
     }

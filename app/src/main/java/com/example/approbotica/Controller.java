@@ -7,28 +7,16 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 
 public class Controller {
     private boolean connection;
     private int battery = 69;
-    private int speed = 0;
-    private int weight = 0;
-    private int[] decibel;
-    private String currentGrid;
-    private String cameraFeed;
-    private String currentAction = "controller";
-
-    private static DatagramSocket socket;
-
-    static {
-        try {
-            socket = new DatagramSocket();
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-    }
+    private String velocity = "0 m/s";
+    private String weight = "0 g";
+    private int decibel;
+    private int currentGrid;
+    private String currentAction = "Manual";
 
     private static Controller controller;
     private Controller(){}
@@ -41,32 +29,42 @@ public class Controller {
 
     private static Client client;
 
-    public boolean createClient()
-    {
+    public boolean setConnection(String ip, int port, DatagramSocket socket){
         try {
-            client = new Client("192.168.50.1", 8080, socket);
-            return true;
+            client = new Client(ip, port, socket);
         } catch (UnknownHostException e) {
             e.printStackTrace();
             return false;
         }
+        if (!testConnection())
+            return false;
+        return true;
+    }
+
+    //TODO function to test connection
+    public boolean testConnection()
+    {
+        connection = true;
+        return connection;
     }
 
     public boolean getConnection(){ return connection; }
     public int getBattery(){ return battery; }
-    public int getSpeed(){ return speed; }
-    public int getWeight(){ return weight; }
+    public String getVelocity(){ return velocity; }
+    public String getWeight(){ return weight; }
     public String getCurrentAction() { return currentAction; }
+    public int getDecibel(){ return decibel; }
 
     public void setConnection(boolean connection){ this.connection = connection; }
     public void setBattery(int battery){ this.battery = battery; }
-    public void setSpeed(int speed){ this.speed = speed; }
-    public void setWeight(int weight){this.weight = weight; }
+    public void setVelocity(String velocity){ this.velocity = velocity; }
+    public void setWeight(String weight){this.weight = weight; }
     public void setCurrentAction(String currentAction) { this.currentAction = currentAction; }
+    public void setDecibel(int decibel){ this.decibel = decibel; }
 
-    public void sendSignal(String[] a, String[] b){
+    public void sendMessage(String[] a, String[] b){
         Message message = new Message(a,b);
-        Runnable sendAMessage = new Runnable() {
+        Runnable messageThread = new Runnable() {
             @Override
             public void run() {
                 try {
@@ -77,15 +75,13 @@ public class Controller {
                 }
             }
         };
-        new Thread(sendAMessage).start();
+        new Thread(messageThread).start();
     }
 
-    public void listener()
-    {
-        Thread listener = new Thread(new Runnable() {
+    public void receiveMessage() {
+        Runnable listenerThread = new Runnable() {
             @Override
             public void run() {
-
                 try {
                     client.startListening();
                     Thread.currentThread().isDaemon();
@@ -97,13 +93,8 @@ public class Controller {
                     e.printStackTrace();
                 }
             }
-        });
-        listener.start();
+        };
+        new Thread(listenerThread).start();
     }
 
-    public boolean setConnection(){
-        connection = true;
-        //do connection stuff here
-        return connection;
-    }
 }

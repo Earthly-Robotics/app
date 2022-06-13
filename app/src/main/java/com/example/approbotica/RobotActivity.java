@@ -1,17 +1,7 @@
 package com.example.approbotica;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.example.Network.Client;
-import com.example.Network.Message;
-
-import java.io.IOException;
-import java.net.UnknownHostException;
 
 public class RobotActivity extends Activations {
 
@@ -29,20 +19,48 @@ public class RobotActivity extends Activations {
             //Activations class
         //menu
         activateBackButton();
-        activateRefreshButton();
         setBattery();
         //buttons
         activateImageView("buttonDance", new Intent(RobotActivity.this, DanceActivity.class));
         activateImageView("buttonSeed", new Intent(RobotActivity.this, SeedActivity.class));
         activateImageView("buttonCamera", new Intent(RobotActivity.this, CameraActivity.class));
         activateImageView("buttonView", new Intent(RobotActivity.this, ViewActivity.class));
-        activateStartStopButton("buttonStop", "MT", "LC");
+        activateStartStopButton("buttonStop", "MT", "EB");
         //layout
         changeCircleColor("circleConnection", Controller.getInstance().getConnection());
-            //This class
-        changeText("textStop",Controller.getInstance().getCurrentAction());
+        //This class
+        changeText("textStop", Controller.getInstance().getCurrentAction());
 
-        testnet();
-        Controller.getInstance().listener();
+        //startUIUpdater();
+    }
+
+    public void startUIUpdater()
+    {
+        Runnable Listen = new Runnable() {
+            @Override
+            public void run() {
+                Thread.currentThread().isDaemon();
+                while (!stop)
+                {
+                    if (Controller.getInstance().testConnection())
+                    {
+                        //TODO when connection ends
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setBattery();
+                            changeButtonText("buttonStop", Controller.getInstance().getCurrentAction());
+                        }
+                    });
+                    try {
+                        Thread.currentThread().sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        new Thread(Listen).start();
     }
 }

@@ -106,7 +106,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Beat dancer"
+                        android:text="Beat Dancer"
                         android:layout_gravity="center"
                         android:fontFamily="@font/centurygothic"
                         android:textSize="25dp"
@@ -129,9 +129,19 @@
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="#46C2C7"
-                        android:minHeight="175dp">
-
+                        android:background="#162A35"
+                        android:minHeight="175dp"
+                        android:gravity="center">
+                        <TextView
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DECIBELS"
+                            android:fontFamily="@font/centurygothic"
+                            android:textSize="25dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -163,7 +173,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Line dance"
+                            android:text="Line Dance"
                             android:fontFamily="@font/centurygothic"
                             android:textSize="25dp"
                             android:textColor="@color/white"
@@ -184,6 +194,7 @@
                         android:width="220dp"
                         android:layout_gravity="center"
                         android:background="@drawable/buttonstyle"
+                        android:textColor="@color/white"
                         android:fontFamily="@font/centurygothic"
                         android:textSize="20dp"/>
                     <LinearLayout
@@ -194,7 +205,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Solo dance"
+                            android:text="Solo Dance"
                             android:fontFamily="@font/centurygothic"
                             android:textSize="25dp"
                             android:textColor="@color/white"
@@ -215,6 +226,7 @@
                         android:width="220dp"
                         android:layout_gravity="center"
                         android:background="@drawable/buttonstyle"
+                        android:textColor="@color/white"
                         android:fontFamily="@font/centurygothic"
                         android:textSize="20dp"/>
                 </LinearLayout>

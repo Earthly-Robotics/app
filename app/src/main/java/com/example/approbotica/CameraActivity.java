@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 public class CameraActivity extends Activations {
+
+    boolean startStream = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,26 +26,73 @@ public class CameraActivity extends Activations {
             //Activations class
         //menu
         activateBackButton();
-        activateRefreshButton();
         setBattery();
         //buttons
-        activateStartStopButton("buttonBlueBlock", "MT", "BR");
-        activateStartStopButton("buttonCorner", "MT", "CR");
+        activateStartStopButton("buttonBlueBlock", "MT", "BLUE_BLOCK");
 
         activateCameraButton();
+        if (Controller.getInstance().getCurrentAction() == "Recognize Blue Block")
+            blueblock(true);
+    }
 
-        String currentAction = Controller.getInstance().getCurrentAction();
-        if (currentAction == "blueblock")
-        {
-            changeCircleColor("circleConnectionCamera", true);
-            changeCircleColor("circleBlueBlock", true);
+    public void blueblock(boolean on)
+    {
+        changeCircleColor("circleConnectionCamera", on);
+        changeCircleColor("circleBlueBlock", on);
+        if (on)
+            changeButtonText("buttonBlueBlock", "Stop");
+        else
             changeButtonText("buttonBlueBlock", "Start");
-        }
-        else if (currentAction == "corner")
-        {
-            changeCircleColor("circleConnectionCamera", true);
-            changeCircleColor("circleCorner", true);
-            changeButtonText("buttonCorner", "Start");
-        }
+
+
+    }
+
+    public void activateCameraButton(){
+        Button button = (Button) findViewById(R.id.buttonCamera);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                button.setVisibility(button.INVISIBLE);
+                startStream = true;
+            }
+        });
+    }
+
+    public void startUIUpdaterView()
+    {
+        Runnable Listen = new Runnable() {
+            @Override
+            public void run() {
+                Thread.currentThread().isDaemon();
+                while (!stop)
+                {
+                    if (Controller.getInstance().testConnection())
+                    {
+                        //TODO when connection ends
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setBattery();
+                            if (Controller.getInstance().getCurrentAction() == "Recognize Blue Block")
+                                blueblock(true);
+                            else
+                                blueblock(false);
+
+                            if (startStream)
+                            {
+                                //TODO setup camera stream
+                            }
+                        }
+                    });
+                    try {
+                        Thread.currentThread().sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        new Thread(Listen).start();
     }
 }

@@ -26,24 +26,74 @@ public class DanceActivity extends Activations {
             //Activations class
         //menu
         activateBackButton();
-        activateRefreshButton();
         setBattery();
         //buttons
-        activateStartStopButton("buttonLineDance", "MT", "LD");
-        activateStartStopButton("buttonSoloDance", "MT", "SD");
-        String currentAction = Controller.getInstance().getCurrentAction();
-        if (currentAction == "linedance")
-        {
-            changeCircleColor("circleConnectionDance", true);
-            changeCircleColor("circleLineDance", true);
-            changeButtonText("buttonLineDance", "Start");
-        }
-        else if (currentAction == "solodance")
-        {
-            changeCircleColor("circleConnectionDance", true);
-            changeCircleColor("circleSoloDance", true);
-            changeButtonText("buttonSoloDance", "Start");
-        }
+        activateStartStopButton("buttonLineDance", "MT", "LINE_DANCE");
+        activateStartStopButton("buttonSoloDance", "MT", "SOLO_DANCE");
+        if (Controller.getInstance().getCurrentAction() == "Line Dance")
+            linedance(true);
+        else if (Controller.getInstance().getCurrentAction() == "Solo Dance")
+            solodance(true);
+    }
 
+    public void linedance(boolean on)
+    {
+        changeCircleColor("circleConnectionDance", on);
+        changeCircleColor("circleLineDance", on);
+        if (on)
+            changeButtonText("buttonLineDance", "Stop");
+        else
+            changeButtonText("buttonLineDance", "Start");
+    }
+
+    public void solodance(boolean on)
+    {
+        changeCircleColor("circleConnectionDance", on);
+        changeCircleColor("circleSoloDance", on);
+        if (on)
+            changeButtonText("buttonSoloDance", "Stop");
+        else
+            changeButtonText("buttonSoloDance", "Start");
+    }
+
+    public void startUIUpdater()
+    {
+        Runnable Listen = new Runnable() {
+            @Override
+            public void run() {
+                Thread.currentThread().isDaemon();
+                while (!stop)
+                {
+                    if (Controller.getInstance().testConnection())
+                    {
+                        //TODO when connection ends
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setBattery();
+                            if (Controller.getInstance().getCurrentAction() == "Line Dance"){
+                                linedance(true);
+                                solodance(false);
+                            }
+                            else if (Controller.getInstance().getCurrentAction() == "Solo Dance"){
+                                linedance(false);
+                                solodance(true);
+                            }
+                            else{
+                                linedance(false);
+                                solodance(false);
+                            }
+                        }
+                    });
+                    try {
+                        Thread.currentThread().sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        new Thread(Listen).start();
     }
 }

@@ -19,16 +19,54 @@ public class SeedActivity extends Activations {
             //Activations class
         //menu
         activateBackButton();
-        activateRefreshButton();
         setBattery();
         //buttons
-        activateStartStopButton("buttonPlantSeeds", "MT", "PS");
-        if (Controller.getInstance().getCurrentAction() == "plantseeds")
-        {
-            changeCircleColor("circleConnectionSeed", true);
-            changeCircleColor("circlePlantSeeds", true);
-            changeButtonText("circlePlantSeeds", "Start");
-        }
+        activateStartStopButton("buttonPlantSeeds", "MT", "PLANT");
+        if (Controller.getInstance().getCurrentAction() == "Plant Seeds")
+            plantseeds(true);
 
+    }
+
+    public void plantseeds(boolean on)
+    {
+        changeCircleColor("circleConnectionSeed", on);
+        changeCircleColor("circlePlantSeeds", on);
+        if (on)
+            changeButtonText("buttonPlantSeeds", "Stop");
+        else
+            changeButtonText("buttonPlantSeeds", "Start");
+    }
+
+    public void startUIUpdater()
+    {
+        Runnable Listen = new Runnable() {
+            @Override
+            public void run() {
+                Thread.currentThread().isDaemon();
+                while (!stop)
+                {
+                    if (Controller.getInstance().testConnection())
+                    {
+                        //TODO when connection ends
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setBattery();
+                            if (Controller.getInstance().getCurrentAction() == "Plant Seeds")
+                                plantseeds(true);
+                            else
+                                plantseeds(false);
+                        }
+                    });
+                    try {
+                        Thread.currentThread().sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        new Thread(Listen).start();
     }
 }
