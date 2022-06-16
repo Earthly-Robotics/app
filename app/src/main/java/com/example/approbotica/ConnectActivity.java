@@ -37,13 +37,10 @@ public class ConnectActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (Controller.getInstance().setConnection("141.252.29.102", 7070, socket))
+        if (Controller.getInstance().setConnection("141.252.29.102", 8080, socket))
         {
             Controller.getInstance().receiveMessage();
-            //TODO know what to send to receive right messages
-            String [] a = {"MT"};
-            String [] b = {"VELOCITY"};
-            Controller.getInstance().sendMessage(a,b);
+            Controller.getInstance().pingMessage();
             connectionstring.setText("Connected.");
             timer = new Timer();
             timer.schedule(new TimerTask() {

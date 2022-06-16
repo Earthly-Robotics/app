@@ -10,11 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
-        <ImageView
+        <ImageView android:id="@+id/imageCamera"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:src="@drawable/homeimage" />
+            android:layout_height="match_parent"
+            android:background="@drawable/homeimage"/>
     </LinearLayout>
 
     <LinearLayout
@@ -128,7 +127,7 @@
                     android:layout_marginRight="25dp"
                     android:width="220dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/buttonstyle"
+                    android:background="@drawable/buttonstyleblue"
                     android:textColor="@color/white"
                     android:fontFamily="@font/centurygothic"
                     android:textSize="20dp"/>
@@ -142,7 +141,7 @@
                     android:layout_marginRight="25dp"
                     android:width="220dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/buttonstyle"
+                    android:background="@drawable/buttonstylered"
                     android:textColor="@color/white"
                     android:fontFamily="@font/centurygothic"
                     android:textSize="20dp"/>

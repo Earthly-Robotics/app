@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 import java.util.Dictionary;
+import java.util.Objects;
 
 public class Activations extends AppCompatActivity {
 
@@ -60,22 +61,14 @@ public class Activations extends AppCompatActivity {
         String currentAction = Controller.getInstance().getCurrentAction();
         int ID = getResources().getIdentifier(id, "id", getPackageName());
         Button button = (Button) findViewById(ID);
-        button.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus)
-                    button.setText("Hallo");
-                if (!hasFocus)
-                    button.setText("Stop");
-            }
-        });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String [] a = {A};
                 String [] b = {B};
-                String [] c = {"UB"};
-                if (button.getText() == "Stop")
+                String [] c = {"EMERGENCY_BUTTON"};
+                String i = (String) button.getText();
+                if (Objects.equals(i, "Stop"))
                     Controller.getInstance().sendMessage(a,c);
                 else
                     Controller.getInstance().sendMessage(a,b);
@@ -102,6 +95,15 @@ public class Activations extends AppCompatActivity {
             circle.setBackgroundResource(R.drawable.circlegreen);
         else
             circle.setBackgroundResource(R.drawable.circlered);
+    }
+
+    public void changeButtonColor(String id, boolean colorBlue){
+        int ID = getResources().getIdentifier(id, "id", getPackageName());
+        Button button = (Button) findViewById(ID);
+        if (colorBlue)
+            button.setBackgroundResource(R.drawable.buttonstyleblue);
+        else
+            button.setBackgroundResource(R.drawable.buttonstylered);
     }
 
     @Override

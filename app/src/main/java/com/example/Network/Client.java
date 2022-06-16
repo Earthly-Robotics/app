@@ -1,5 +1,9 @@
 package com.example.Network;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
 import com.example.approbotica.Controller;
 
 import org.json.simple.JSONObject;
@@ -60,11 +64,18 @@ public class Client {
         }
     }
 
+    public Bitmap getImage(String bits)
+    {
+        byte[] decodedString = Base64.decode(bits, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        return decodedByte;
+    }
+
     private void handleMessage(JSONObject jsonObject){
         switch (jsonObject.get("MT").toString()) {
             case "BATTERY"://Camera Feed
                 lock.lock();
-                Controller.getInstance().setBattery((Integer) jsonObject.get("BATTERY"));
+                Controller.getInstance().setBattery((Integer) jsonObject.get("Battery"));
                 lock.unlock();
                 break;
             case "VELOCITY":// Orientation & Speed
@@ -74,42 +85,63 @@ public class Client {
                 break;
             case "WEIGHT":// Battery Percentage
                 lock.lock();
-                Controller.getInstance().setWeight("" + jsonObject.get("WEIGHT"));
+                Controller.getInstance().setWeight("" + jsonObject.get("Weight") + " g");
                 lock.unlock();
                 break;
             case "DECIBEL":// Weight
                 lock.lock();
-                Controller.getInstance().setDecibel((Integer) jsonObject.get("DECIBEL"));
+                Controller.getInstance().setDecibel((Integer) jsonObject.get("Decibel"));
                 lock.unlock();
                 break;
             case "CAMERA":
                 lock.lock();
-                //TODO camera stuff
+                Controller.getInstance().setCamera(getImage("" + jsonObject.get("Camera")));
                 lock.unlock();
-            case "CAMERA_DEBUG":
+                break;
+            case "CAMERA_DEBUG":// Weight
                 lock.lock();
-                //TODO camera stuff
+                Controller.getInstance().setCameraDebug(getImage("" + jsonObject.get("Camera_Debug")));
                 lock.unlock();
+                break;
+            case "BLUE_BLOCK_VALUES":
+                lock.lock();
+                Controller.getInstance().setLowerArea("" + jsonObject.get("Lower_Area"));
+                Controller.getInstance().setUpperArea("" + jsonObject.get("Upper_Area"));
+                Controller.getInstance().setLowerShape("" + jsonObject.get("Lower_Shape"));
+                Controller.getInstance().setUpperShape("" + jsonObject.get("Upper_Shape"));
+                lock.unlock();
+                break;
             case "LINE_DANCE":
                 lock.lock();
                 Controller.getInstance().setCurrentAction("Line Dance");
                 lock.unlock();
+                break;
             case "SOLO_DANCE":
                 lock.lock();
                 Controller.getInstance().setCurrentAction("Solo Dance");
                 lock.unlock();
+                break;
             case "PLANT":
                 lock.lock();
                 Controller.getInstance().setCurrentAction("Plant Seeds");
                 lock.unlock();
+                break;
             case "BLUE_BLOCK":
                 lock.lock();
                 Controller.getInstance().setCurrentAction("Recognize Blue Block");
                 lock.unlock();
+                break;
             case "MANUAL":
                 lock.lock();
                 Controller.getInstance().setCurrentAction("Manual");
                 lock.unlock();
+                break;
+            case "PING":
+                lock.lock();
+                Controller.getInstance().setConnection(true);
+                Controller.getInstance().setConnectionPing(true);
+                lock.unlock();
+                break;
         }
     }
 }

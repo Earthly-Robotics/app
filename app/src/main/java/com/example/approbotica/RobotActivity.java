@@ -2,6 +2,7 @@ package com.example.approbotica;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.service.controls.Control;
 
 public class RobotActivity extends Activations {
 
@@ -11,6 +12,10 @@ public class RobotActivity extends Activations {
         {
             Intent activity = new Intent(RobotActivity.this, ViewActivity.class);
             startActivity(activity);
+        }
+        else{
+            Controller.getInstance().sendMessage(new String[]{"MT"}, new String[]{"BATTERY"});
+            startUIUpdater();
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_robot);
@@ -30,8 +35,6 @@ public class RobotActivity extends Activations {
         changeCircleColor("circleConnection", Controller.getInstance().getConnection());
         //This class
         changeText("textStop", Controller.getInstance().getCurrentAction());
-
-        //startUIUpdater();
     }
 
     public void startUIUpdater()
@@ -42,23 +45,22 @@ public class RobotActivity extends Activations {
                 Thread.currentThread().isDaemon();
                 while (!stop)
                 {
-                    if (Controller.getInstance().testConnection())
-                    {
-                        //TODO when connection ends
-                    }
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            changeCircleColor("circleConnection", Controller.getInstance().getConnection());
                             setBattery();
-                            changeButtonText("buttonStop", Controller.getInstance().getCurrentAction());
+                            changeText("textStop", Controller.getInstance().getCurrentAction());
                         }
                     });
                     try {
-                        Thread.currentThread().sleep(1000);
+                        Thread.currentThread().sleep(200);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
+                Controller.getInstance().sendMessage(new String[]{"MT"}, new String[]{"BATTERY"});
+                Controller.getInstance().setActive(false);
             }
         };
         new Thread(Listen).start();

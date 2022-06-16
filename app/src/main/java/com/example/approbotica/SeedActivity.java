@@ -12,6 +12,8 @@ public class SeedActivity extends Activations {
             Intent activity = new Intent(SeedActivity.this, ViewActivity.class);
             startActivity(activity);
         }
+        else
+            startUIUpdater();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seed);
         getSupportActionBar().hide();
@@ -31,6 +33,7 @@ public class SeedActivity extends Activations {
     {
         changeCircleColor("circleConnectionSeed", on);
         changeCircleColor("circlePlantSeeds", on);
+        changeButtonColor("buttonPlantSeeds", on);
         if (on)
             changeButtonText("buttonPlantSeeds", "Stop");
         else
@@ -45,10 +48,8 @@ public class SeedActivity extends Activations {
                 Thread.currentThread().isDaemon();
                 while (!stop)
                 {
-                    if (Controller.getInstance().testConnection())
-                    {
-                        //TODO when connection ends
-                    }
+                    if (!Controller.getInstance().getConnection())
+                        finish();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -60,7 +61,7 @@ public class SeedActivity extends Activations {
                         }
                     });
                     try {
-                        Thread.currentThread().sleep(1000);
+                        Thread.currentThread().sleep(200);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

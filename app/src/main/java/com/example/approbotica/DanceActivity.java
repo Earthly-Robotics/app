@@ -1,14 +1,7 @@
 package com.example.approbotica;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 public class DanceActivity extends Activations {
 
@@ -18,6 +11,9 @@ public class DanceActivity extends Activations {
         {
             Intent activity = new Intent(DanceActivity.this, ViewActivity.class);
             startActivity(activity);
+        }
+        else {
+            startUIUpdater();
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dance);
@@ -40,6 +36,7 @@ public class DanceActivity extends Activations {
     {
         changeCircleColor("circleConnectionDance", on);
         changeCircleColor("circleLineDance", on);
+        changeButtonColor("buttonLineDance", on);
         if (on)
             changeButtonText("buttonLineDance", "Stop");
         else
@@ -50,6 +47,7 @@ public class DanceActivity extends Activations {
     {
         changeCircleColor("circleConnectionDance", on);
         changeCircleColor("circleSoloDance", on);
+        changeButtonColor("buttonSoloDance", on);
         if (on)
             changeButtonText("buttonSoloDance", "Stop");
         else
@@ -64,10 +62,8 @@ public class DanceActivity extends Activations {
                 Thread.currentThread().isDaemon();
                 while (!stop)
                 {
-                    if (Controller.getInstance().testConnection())
-                    {
-                        //TODO when connection ends
-                    }
+                    if (!Controller.getInstance().getConnection())
+                        finish();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
