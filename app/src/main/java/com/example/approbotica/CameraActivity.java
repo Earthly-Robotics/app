@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 public class CameraActivity extends Activations {
 
     boolean startStream = false;
-    boolean changed = false;
+    public static boolean changed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +29,7 @@ public class CameraActivity extends Activations {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         getSupportActionBar().hide();
+
 
             //Activations class
         //menu
@@ -46,7 +47,7 @@ public class CameraActivity extends Activations {
         activateEditText("textUpperArea");
         activateEditText("textLowerShape");
         activateEditText("textUpperShape");
-        if (Controller.getInstance().getCurrentAction() == "Recognize Blue Block")
+        if (Controller.getInstance().getCurrentAction() == "Manual")
             blueblock(true);
     }
 
@@ -99,7 +100,7 @@ public class CameraActivity extends Activations {
     {
         changeCircleColor("circleConnectionCamera", on);
         changeCircleColor("circleBlueBlock", on);
-        changeButtonColor("buttonBlueBlock", on);
+        changeButtonColor("buttonBlueBlock", !on);
         if (on){
             changeButtonText("buttonBlueBlock", "Stop");
         }
@@ -113,6 +114,7 @@ public class CameraActivity extends Activations {
             @Override
             public void onClick(View view) {
                 button.setVisibility(button.INVISIBLE);
+                Controller.getInstance().sendMessage(new String [] {"MT"}, new String [] {"CAMERA_DEBUG"});
                 startStream = true;
             }
         });
@@ -144,8 +146,7 @@ public class CameraActivity extends Activations {
                                 blueblock(true);
                             else
                                 blueblock(false);
-                            if (startStream)
-                            {
+                            if (startStream){
                                 LinearLayout linearlayout = (LinearLayout) findViewById(R.id.imageCamera);
                                 linearlayout.setBackground( new BitmapDrawable(getResources(), Controller.getInstance().getCameraDebug()));
                             }
@@ -153,11 +154,15 @@ public class CameraActivity extends Activations {
                         }
                     });
                     try {
-                        Thread.currentThread().sleep(40);
+                        Thread.currentThread().sleep(30);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
+                if (startStream)
+                    Controller.getInstance().sendMessage(new String [] {"MT"}, new String [] {"CAMERA_DEBUG"});
+                if (Controller.getInstance().getCurrentAction() == "Recognize Blue Block")
+                    Controller.getInstance().sendMessage(new String [] {"MT"}, new String [] {"BLUE_BLOCK"});
             }
         };
         new Thread(Listen).start();

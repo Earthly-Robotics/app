@@ -124,15 +124,124 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:gravity="center"
                     android:layout_marginTop="25dp">
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="#46C2C7"
-                        android:minHeight="175dp">
+                        android:minHeight="5dp">
 
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginTop="15dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Row amount - "
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/centurygothic"
+                            android:textSize="25dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"/>
+                        <EditText android:id="@+id/textRowAmount"
+                            android:inputType="text"
+                            android:maxLength="4"
+                            android:singleLine="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/centurygothic"
+                            android:textSize="25dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginTop="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Distance Row - "
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/centurygothic"
+                            android:textSize="25dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"/>
+                        <EditText android:id="@+id/textDistanceRow"
+                            android:inputType="text"
+                            android:maxLength="4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/centurygothic"
+                            android:textSize="25dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginTop="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Seed Amount - "
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/centurygothic"
+                            android:textSize="25dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"/>
+                        <EditText android:id="@+id/textSeedAmount"
+                            android:inputType="text"
+                            android:maxLength="4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/centurygothic"
+                            android:textSize="25dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginTop="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Distance Seed - "
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/centurygothic"
+                            android:textSize="25dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"/>
+                        <EditText android:id="@+id/textDistanceSeed"
+                            android:inputType="text"
+                            android:maxLength="4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/centurygothic"
+                            android:textSize="25dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

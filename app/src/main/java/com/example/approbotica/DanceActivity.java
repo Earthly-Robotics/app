@@ -36,7 +36,7 @@ public class DanceActivity extends Activations {
     {
         changeCircleColor("circleConnectionDance", on);
         changeCircleColor("circleLineDance", on);
-        changeButtonColor("buttonLineDance", on);
+        changeButtonColor("buttonLineDance", !on);
         if (on)
             changeButtonText("buttonLineDance", "Stop");
         else
@@ -47,7 +47,7 @@ public class DanceActivity extends Activations {
     {
         changeCircleColor("circleConnectionDance", on);
         changeCircleColor("circleSoloDance", on);
-        changeButtonColor("buttonSoloDance", on);
+        changeButtonColor("buttonSoloDance", !on);
         if (on)
             changeButtonText("buttonSoloDance", "Stop");
         else

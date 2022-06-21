@@ -14,7 +14,6 @@ public class RobotActivity extends Activations {
             startActivity(activity);
         }
         else{
-            Controller.getInstance().sendMessage(new String[]{"MT"}, new String[]{"BATTERY"});
             startUIUpdater();
         }
         super.onCreate(savedInstanceState);
@@ -30,7 +29,7 @@ public class RobotActivity extends Activations {
         activateImageView("buttonSeed", new Intent(RobotActivity.this, SeedActivity.class));
         activateImageView("buttonCamera", new Intent(RobotActivity.this, CameraActivity.class));
         activateImageView("buttonView", new Intent(RobotActivity.this, ViewActivity.class));
-        activateStartStopButton("buttonStop", "MT", "EB");
+        activateStartStopButton("buttonStop", "MT", "EMERGENCY_BUTTON");
         //layout
         changeCircleColor("circleConnection", Controller.getInstance().getConnection());
         //This class
@@ -59,7 +58,6 @@ public class RobotActivity extends Activations {
                         e.printStackTrace();
                     }
                 }
-                Controller.getInstance().sendMessage(new String[]{"MT"}, new String[]{"BATTERY"});
                 Controller.getInstance().setActive(false);
             }
         };

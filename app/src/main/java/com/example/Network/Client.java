@@ -4,7 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 
+import com.example.approbotica.CameraActivity;
 import com.example.approbotica.Controller;
+import com.example.approbotica.SeedActivity;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -19,16 +21,28 @@ public class Client {
     private InetAddress IpAddress;
     private int Port;
     private DatagramSocket Socket;
-    boolean ReceiveMessage = false;
     private List<Thread> threads = new ArrayList<Thread>();
     private Lock lock = new ReentrantLock();
 
+    /**
+     * Sets data and creates UDP connection
+     * @param ipAddress
+     * @param port
+     * @param socket
+     * @return (boolean) depending on if it was created
+     */
     public Client(String ipAddress, int port, DatagramSocket socket) throws UnknownHostException {
         IpAddress = InetAddress.getByName(ipAddress);
         Port = port;
         Socket = socket;
     }
 
+    /**
+     * Sends message to client.
+     * @param input json string. (Message)
+     * @throws IOException necessary
+     * @throws ParseException necessary
+     */
     public void sendMessage(String input) throws IOException, ParseException {
         byte buf[] = null;
         buf = input.getBytes();
@@ -37,10 +51,14 @@ public class Client {
         Socket.send(DpSend);
     }
 
-    //TODO Gooi Receive op een Thread
+    /**
+     * TODO how does this work?
+     * @throws IOException necessary
+     * @throws ParseException necessary
+     * @throws InterruptedException necessary
+     */
     public void startListening() throws IOException, ParseException, InterruptedException {
         boolean loop = true;
-        int i = 0;
         while (loop){
             byte[] buf = new byte[1000000];
             //Receive Message
@@ -51,11 +69,9 @@ public class Client {
             System.arraycopy(DpReceive.getData(), DpReceive.getOffset(), received, 0, DpReceive.getLength());
             //Convert String to JsonObject
             JSONObject jsonObject = new Message(new String(received)).getJSONObject();
-            int finalI = i;
             new Thread(() -> {
                 handleMessage(jsonObject);
                 try {
-                    System.out.println("Closed thread: " + finalI);
                     Thread.currentThread().join();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -64,6 +80,11 @@ public class Client {
         }
     }
 
+    /**
+     * Converts json string to an BitMap. (A single frame of the camera)
+     * @param bits
+     * @return BitMap
+     */
     public Bitmap getImage(String bits)
     {
         byte[] decodedString = Base64.decode(bits, Base64.DEFAULT);
@@ -71,24 +92,24 @@ public class Client {
         return decodedByte;
     }
 
+    /**
+     * Get the Message Type. (MT)
+     * Checks with an case and puts variable in Controller.
+     * @param jsonObject
+     */
     private void handleMessage(JSONObject jsonObject){
         switch (jsonObject.get("MT").toString()) {
-            case "BATTERY"://Camera Feed
-                lock.lock();
-                Controller.getInstance().setBattery((Integer) jsonObject.get("Battery"));
-                lock.unlock();
-                break;
-            case "VELOCITY":// Orientation & Speed
+            case "VELOCITY":
                 lock.lock();
                 Controller.getInstance().setVelocity("" + jsonObject.get("Velocity"));
                 lock.unlock();
                 break;
-            case "WEIGHT":// Battery Percentage
+            case "WEIGHT":
                 lock.lock();
                 Controller.getInstance().setWeight("" + jsonObject.get("Weight") + " g");
                 lock.unlock();
                 break;
-            case "DECIBEL":// Weight
+            case "DECIBEL":
                 lock.lock();
                 Controller.getInstance().setDecibel((Integer) jsonObject.get("Decibel"));
                 lock.unlock();
@@ -98,7 +119,7 @@ public class Client {
                 Controller.getInstance().setCamera(getImage("" + jsonObject.get("Camera")));
                 lock.unlock();
                 break;
-            case "CAMERA_DEBUG":// Weight
+            case "CAMERA_DEBUG":
                 lock.lock();
                 Controller.getInstance().setCameraDebug(getImage("" + jsonObject.get("Camera_Debug")));
                 lock.unlock();
@@ -109,6 +130,16 @@ public class Client {
                 Controller.getInstance().setUpperArea("" + jsonObject.get("Upper_Area"));
                 Controller.getInstance().setLowerShape("" + jsonObject.get("Lower_Shape"));
                 Controller.getInstance().setUpperShape("" + jsonObject.get("Upper_Shape"));
+                CameraActivity.changed = true;
+                lock.unlock();
+                break;
+            case "values van seed":
+                lock.lock();
+                Controller.getInstance().setRowAmount("" + jsonObject.get("Lower_Area"));
+                Controller.getInstance().setDistanceRow("" + jsonObject.get("Upper_Area"));
+                Controller.getInstance().setSeedAmount("" + jsonObject.get("Lower_Shape"));
+                Controller.getInstance().setDistanceSeed("" + jsonObject.get("Upper_Shape"));
+                SeedActivity.changed = true;
                 lock.unlock();
                 break;
             case "LINE_DANCE":

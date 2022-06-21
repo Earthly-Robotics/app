@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,17 +21,24 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 public class MainActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (!Controller.getInstance().getNoMessage())
+            getSupportActionBar().hide();
+
+            //Activations in this class
         ActivateButton();
         ActivateButtonIron();
         addMargin();
-        getSupportActionBar().hide();
     }
 
+    /**
+     * Responsiveness for the MainActivity page.
+     */
     private void addMargin(){
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -40,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
         scrollbar.setLayoutParams(layoutParams);
     }
 
+    /**
+     * Creates onClick method for connection button of the Flower Golem.
+     * Goes to RobotActivity page.
+     */
     private void ActivateButton(){
         Button buttonconnectflowergolem = (Button) findViewById(R.id.buttonConnectFlowerGolem);
         buttonconnectflowergolem.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Meme
+     */
     private void ActivateButtonIron(){
         Button buttonconnectflowergolem = (Button) findViewById(R.id.buttonConnectIronGolem);
         buttonconnectflowergolem.setOnClickListener(new View.OnClickListener() {

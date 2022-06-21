@@ -3,19 +3,15 @@ package com.example.approbotica;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import java.util.concurrent.TimeUnit;
 
 public class ConnectActivity extends AppCompatActivity {
 
@@ -28,40 +24,59 @@ public class ConnectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
         getSupportActionBar().hide();
-
-        TextView connectionstring = (TextView) findViewById(R.id.connectionString);
-
         try {
             socket = new DatagramSocket();
         } catch (SocketException e) {
             e.printStackTrace();
         }
-
-        if (Controller.getInstance().setConnection("141.252.29.102", 8080, socket))
+        if (Controller.getInstance().setClient("141.252.29.102", 7070, socket))
         {
             Controller.getInstance().receiveMessage();
-            Controller.getInstance().pingMessage();
-            connectionstring.setText("Connected.");
-            timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(ConnectActivity.this, RobotActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }, 1000);
+            Controller.getInstance().setConnection(false);
+            Controller.getInstance().setConnectionPing(false);
+            tryConnection();
         }
-        else
-        {
-            connectionstring.setText("Failed.");
-            timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    finish();
+    }
+
+    public void tryConnection()
+    {
+        Runnable Listen = new Runnable() {
+            @Override
+            public void run() {
+                Thread.currentThread().isDaemon();
+                TextView connectionstring = (TextView) findViewById(R.id.connectionString);
+                try {
+                    Thread.currentThread().sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            }, 1000);
-        }
+                Controller.getInstance().sendMessage(new String [] {"MT"}, new String [] {"PING"});
+                try {
+                    Thread.currentThread().sleep(400);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (Controller.getInstance().getConnection())
+                            connectionstring.setText("Connected.");
+                        else
+                            connectionstring.setText("Failed.");
+                    }
+                });
+                try {
+                    Thread.currentThread().sleep(700);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Controller.getInstance().setActive(true);
+                Controller.getInstance().pingMessage();
+                Intent intent = new Intent(ConnectActivity.this, RobotActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+        new Thread(Listen).start();
     }
 }
